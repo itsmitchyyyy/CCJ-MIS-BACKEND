@@ -42,7 +42,12 @@ class AuthController extends Controller
         return response()->json(['user' => new UserResource($user), 'token' => $token]);
     }
 
-    public function user(Request $request) {
-        return response()->json(new UserResource($request->user()));
+    public function logout() {
+        try {
+            auth()->user()->tokens()->delete();
+            return response()->json(['message' => 'Logged out successfully!']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th, 'message' => 'Something went wrong!']);
+        }
     }
 }

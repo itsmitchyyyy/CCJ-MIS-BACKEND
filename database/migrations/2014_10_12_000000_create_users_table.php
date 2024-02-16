@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->enum('access_type', ['admin','teacher','student'])->default('admin');
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('profile_picture')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
