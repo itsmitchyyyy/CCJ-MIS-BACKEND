@@ -33,10 +33,10 @@ Generate Key
 php artisan key:generate
 ```
 
-Migrate Database
+Migrate and Seed Database
 
 ```sh
-php artisan migrate
+php artisan migrate:fresh --seed
 ```
 
 ## Running the project
