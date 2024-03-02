@@ -39,6 +39,12 @@ Migrate and Seed Database
 php artisan migrate:fresh --seed
 ```
 
+Link the storage
+
+```sh
+php artisan storage:link
+```
+
 ## Running the project
 
 ```sh

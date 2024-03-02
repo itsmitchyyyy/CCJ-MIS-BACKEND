@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
    // User Routes
    Route::controller(UserController::class)->group(function () {
        Route::get('/user', 'user');
+       Route::put('/user/{user}', 'update');
    });
 
    // Auth Routes
