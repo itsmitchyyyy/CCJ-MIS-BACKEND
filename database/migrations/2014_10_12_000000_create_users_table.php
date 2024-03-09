@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('contact_number')->unique();
+            $table->string('contact_number');
             $table->string('username')->unique();
             $table->enum('access_type', ['admin','teacher','student'])->default('admin');
             $table->enum('status', ['active', 'inactive'])->default('active');

@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'username' => 'required|string|unique:users,username',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'contact_number' => 'required|phone:PH|unique:users,contact_number',
+            'contact_number' => 'required|phone:PH',
             'email' => 'required|max:255|email|unique:users,email',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'password' => ['required','confirmed',Password::min(8)->letters()->mixedCase()->numbers()->symbols()],

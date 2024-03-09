@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
+use Auth;
 
 class UserController extends Controller
 {
@@ -37,5 +38,19 @@ class UserController extends Controller
         $user = User::create($data);
 
         return new UserResource($user);
+    }
+
+    public function list(Request $request) {
+        if ($request->has('access_type')) {
+            $users = User::where([
+                ['access_type', '=', $request->access_type],
+                ['id', '!=', Auth::id()],
+            ])->get();
+        } else {
+            $users = User::all()->except(Auth::id());
+        }
+
+
+        return UserResource::collection($users);
     }
 }
