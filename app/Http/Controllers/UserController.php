@@ -45,12 +45,18 @@ class UserController extends Controller
             $users = User::where([
                 ['access_type', '=', $request->access_type],
                 ['id', '!=', Auth::id()],
-            ])->get();
+            ])->orderBy('created_at','desc')->get();
         } else {
-            $users = User::all()->except(Auth::id());
+            $users = User::orderBy('created_at', 'desc')->get()->except(Auth::id());
         }
 
 
         return UserResource::collection($users);
+    }
+
+    public function destroy(User $user) {
+        $user->delete();
+
+        return response()->noContent();
     }
 }
