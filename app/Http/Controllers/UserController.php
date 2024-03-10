@@ -59,4 +59,8 @@ class UserController extends Controller
 
         return response()->noContent();
     }
+
+    public function show(User $user) {
+        return  new UserResource($user);
+    }
 }

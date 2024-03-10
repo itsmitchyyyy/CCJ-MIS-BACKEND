@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
        Route::post('/user', 'store');
        Route::get('/users', 'list');
        Route::delete('/user/{user}', 'destroy');
+       Route::get('/user/{user}', 'show');
    });
 
    // Auth Routes
