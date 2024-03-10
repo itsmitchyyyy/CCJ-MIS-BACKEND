@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\AccessType;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -24,9 +26,11 @@ class UpdateUserRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'contact_number' => 'required|phone:PH|unique:users,contact_number,'.$this->user()->id,
-            'email' => 'required|max:255|email|unique:users,email,'.$this->user()->id,
+            'contact_number' => 'required|phone:PH|unique:users,contact_number,'.$this->user->id,
+            'email' => 'required|max:255|email|unique:users,email,'.$this->user->id,
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'username' => 'sometimes|required|string|unique:users,username,'.$this->user->id,
+            'access_type' => ['sometimes', 'required', Rule::enum(AccessType::class)]
         ];
     }
 }
