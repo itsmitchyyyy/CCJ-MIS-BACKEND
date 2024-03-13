@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/change-password', 'changePassword');
   });
 
-  Route::controller(SubjectController::class)->group(function() {
-    Route::apiResource('/subjects', 'SubjectController');
-  });
+  Route::apiResource('/subjects', SubjectController::class)->only(['store']);
+
+  Route::apiResource('/teachers', TeacherController::class)->only(['index']);
 });
