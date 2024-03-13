@@ -39,5 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::controller(SubjectController::class)->group(function() {
     Route::apiResource('/subjects', 'SubjectController');
-  })
+  });
 });
