@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/logout', 'logout');
       Route::post('/change-password', 'changePassword');
   });
+
+  Route::controller(SubjectController::class)->group(function() {
+    Route::apiResource('/subjects', 'SubjectController');
+  })
 });
