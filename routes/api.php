@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/change-password', 'changePassword');
   });
 
-  Route::apiResource('/subjects', SubjectController::class)->only(['store']);
+  Route::apiResource('/subjects', SubjectController::class)->only(['store', 'index']);
 
   Route::apiResource('/teachers', TeacherController::class)->only(['index']);
 });
