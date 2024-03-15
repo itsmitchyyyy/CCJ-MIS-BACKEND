@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,4 +42,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::apiResource('/subjects', SubjectController::class)->only(['store', 'index']);
 
   Route::apiResource('/teachers', TeacherController::class)->only(['index']);
+
+  Route::apiResource('/students', StudentController::class)->only(['index']);
 });
