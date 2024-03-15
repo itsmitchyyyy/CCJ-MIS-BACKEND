@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
 
 class SubjectResource extends JsonResource
 {
@@ -14,6 +15,17 @@ class SubjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user' => new UserResource($this->user),
+            "description" =>  $this->description,
+            "code" =>  $this->code,
+            "name" =>  $this->name,
+            "units" =>  $this->units,
+            "time_start" =>  $this->time_start,
+            "time_end" =>  $this->time_end,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }
