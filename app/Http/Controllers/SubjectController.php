@@ -9,10 +9,12 @@ use App\Models\Subject;
 
 class SubjectController extends Controller
 {
+
     public function index()
     {
         $subjects = Subject::all();
 
+        SubjectResource::withoutWrapping();
         return SubjectResource::collection($subjects);
     }
 
