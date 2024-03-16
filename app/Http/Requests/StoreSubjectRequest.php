@@ -29,6 +29,8 @@ class StoreSubjectRequest extends FormRequest
             'units' => 'required|integer',
             'time_start' => 'required|date_format:H:i',
             'time_end' => 'required|date_format:H:i|after:time_start',
+            'room' => 'required|string',
+            'days' => 'required|string',
         ];
     }
 }
