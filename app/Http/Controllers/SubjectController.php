@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\StoreSubjectStudentRequest;
 use App\Http\Resources\SubjectResource;
+use App\Http\Resources\SubjectStudentResource;
 use App\Models\Subject;
 use App\Models\SubjectStudent;
 use Carbon\Carbon;
@@ -47,5 +48,14 @@ class SubjectController extends Controller
         $subjectStudent = SubjectStudent::insert($subjectStudentData);
 
         return response()->json($subjectStudentData, 201);
+    }
+
+    public function fetchSubjectStudents(Subject $subject)
+    {
+        $subjectStudents = SubjectStudent::where('subject_id', $subject->id)->get();
+
+
+        SubjectStudentResource::withoutWrapping();
+        return SubjectStudentResource::collection($subjectStudents);
     }
 }

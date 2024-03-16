@@ -45,5 +45,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::controller(SubjectController::class)->group(function () {
     Route::post('/subjects/{subject}/students', 'addStudent');
+    Route::get('/subjects/{subject}/students', 'fetchSubjectStudents');
 });
 });
