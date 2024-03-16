@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Requests\StoreSubjectStudentRequest;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
 
@@ -27,10 +28,12 @@ class SubjectController extends Controller
         return new SubjectResource($subject);
     }
 
-    public function addStudent(SubjectStudent $subjectStudent)
+    public function addStudent(StoreSubjectStudentRequest $request)
     {
-        $subjectStudent->save();
+        $data = $request->validated();
 
-        return new SubjectResource($subjectStudent->subject);
+        $subjectStudent = SubjectStudent::create($data);
+
+        return response()->json($subjectStudent, 201);
     }
 }

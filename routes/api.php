@@ -40,8 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
   });
 
   Route::apiResource('/subjects', SubjectController::class)->only(['store', 'index']);
-
   Route::apiResource('/teachers', TeacherController::class)->only(['index']);
-
   Route::apiResource('/students', StudentController::class)->only(['index']);
+
+  Route::controller(SubjectController::class)->group(function () {
+    Route::post('/subjects/{subject}/students', 'addStudent');
+});
 });
