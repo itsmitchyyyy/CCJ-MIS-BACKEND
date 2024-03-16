@@ -24,6 +24,8 @@ class SubjectResource extends JsonResource
             "units" =>  $this->units,
             "time_start" =>  $this->time_start,
             "time_end" =>  $this->time_end,
+            "room" => $this->room,
+            "days" => $this->days,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
