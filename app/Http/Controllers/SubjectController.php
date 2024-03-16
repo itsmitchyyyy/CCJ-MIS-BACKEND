@@ -26,4 +26,11 @@ class SubjectController extends Controller
 
         return new SubjectResource($subject);
     }
+
+    public function addStudent(SubjectStudent $subjectStudent)
+    {
+        $subjectStudent->save();
+
+        return new SubjectResource($subjectStudent->subject);
+    }
 }
