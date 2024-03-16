@@ -7,6 +7,8 @@ use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\StoreSubjectStudentRequest;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
+use App\Models\SubjectStudent;
+use Carbon\Carbon;
 
 class SubjectController extends Controller
 {
@@ -28,12 +30,22 @@ class SubjectController extends Controller
         return new SubjectResource($subject);
     }
 
-    public function addStudent(StoreSubjectStudentRequest $request)
+    public function addStudent(Subject $subject, StoreSubjectStudentRequest $request)
     {
         $data = $request->validated();
 
-        $subjectStudent = SubjectStudent::create($data);
+        $subjectStudentData = [];
 
-        return response()->json($subjectStudent, 201);
+        foreach($data['user_id'] as $userId) {
+            $subjectStudentData[] = [
+                'subject_id' => $subject->id,
+                'user_id' => $userId,
+                'created_at' => Carbon::now(),
+            ];
+        }
+
+        $subjectStudent = SubjectStudent::insert($subjectStudentData);
+
+        return response()->json($subjectStudentData, 201);
     }
 }

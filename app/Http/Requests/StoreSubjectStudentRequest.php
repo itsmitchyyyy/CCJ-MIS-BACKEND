@@ -22,7 +22,8 @@ class StoreSubjectStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|array',
+            'user_id.*' => 'exists:users,id',
         ];
     }
 }
