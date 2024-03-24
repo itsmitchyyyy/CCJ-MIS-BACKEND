@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\AccessType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -51,4 +52,9 @@ class User extends Authenticatable
         'password' => 'hashed',
         'access_type' => AccessType::class
     ];
+
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(SubjectStudent::class);
+    }
 }

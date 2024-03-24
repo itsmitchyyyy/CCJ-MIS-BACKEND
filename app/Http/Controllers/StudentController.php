@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Enums\AccessType;
 use App\Enums\Status;
+use App\Http\Resources\SubjectStudentResource;
 
 use Illuminate\Http\Request;
 
@@ -22,5 +23,11 @@ class StudentController extends Controller
     public function show(User $student)
     {
         return response()->json($student, 200);
+    }
+
+    public function getSubjects(User $student)
+    {
+        SubjectStudentResource::withoutWrapping();
+        return SubjectStudentResource::collection($student->subjects);
     }
 }

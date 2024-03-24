@@ -19,7 +19,7 @@ class SubjectStudentResource extends JsonResource
         return [
             'id' => $this->id,
             'subject_id' => $this->subject_id,
-            'subject_name' => new SubjectResource($this->subject),
+            'subject' => new SubjectResource($this->subject),
             'student_id' => $this->user_id,
             'student' => new UserResource($this->user),
             'created_at' => $this->created_at,
