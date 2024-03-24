@@ -25,8 +25,8 @@ class StoreDocumentRequest extends FormRequest
     {
         return [
             'type' => ['required', Rule::enum(DocumentType::class)],
-            'document' => 'required|array|min:1',
-            'document.*' => 'file|mimes:pdf,doc,docx,txt,xlsx,xls,pptx,ppt|max:2048|required',
+            'documents' => 'required|array|min:1',
+            'documents.*' => 'file|mimes:pdf,doc,docx,txt,xlsx,xls,pptx,ppt|max:25128|required',
             'user_id' => 'required|exists:users,id',
         ];
     }

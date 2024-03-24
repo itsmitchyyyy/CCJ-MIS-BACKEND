@@ -13,7 +13,7 @@ class DocumentController extends Controller
 
         $documents = [];
 
-        foreach ($data['document'] as $document) {
+        foreach ($data['documents'] as $document) {
             $filePath = "documents/{$data['type']}";
             $documents[] = [
                 'type' => $data['type'],
