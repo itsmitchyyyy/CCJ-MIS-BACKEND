@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,10 +42,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::apiResource('/subjects', SubjectController::class)->only(['store', 'index']);
   Route::apiResource('/teachers', TeacherController::class)->only(['index']);
-  Route::apiResource('/students', StudentController::class)->only(['index']);
+  Route::apiResource('/students', StudentController::class)->only(['index', 'show']);
+  Route::apiResource('/attendances', AttendanceController::class)->only(['store', 'index']);
 
   Route::controller(SubjectController::class)->group(function () {
     Route::post('/subjects/{subject}/students', 'addStudent');
     Route::get('/subjects/{subject}/students', 'fetchSubjectStudents');
+    Route::delete('/subjects/{subject}/students/{student}', 'removeStudent');
 });
 });

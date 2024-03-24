@@ -27,7 +27,6 @@ class SubjectController extends Controller
         $data = $request->validated();
 
         $subject = Subject::create($data);
-
         return new SubjectResource($subject);
     }
 
@@ -46,7 +45,6 @@ class SubjectController extends Controller
         }
 
         $subjectStudent = SubjectStudent::insert($subjectStudentData);
-
         return response()->json($subjectStudentData, 201);
     }
 
@@ -54,8 +52,16 @@ class SubjectController extends Controller
     {
         $subjectStudents = SubjectStudent::where('subject_id', $subject->id)->get();
 
-
         SubjectStudentResource::withoutWrapping();
         return SubjectStudentResource::collection($subjectStudents);
+    }
+
+    public function removeStudent(Subject $subject, $studentId)
+    {
+        SubjectStudent::where('subject_id', $subject->id)
+            ->where('user_id', $studentId)
+            ->delete();
+
+        return response()->noContent();
     }
 }
