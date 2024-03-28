@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Models\Document;
+use App\Enums\DocumentStatus;
+use App\Http\Resources\DocumentResource;
 
 class DocumentController extends Controller
 {
@@ -26,5 +28,14 @@ class DocumentController extends Controller
         Document::insert($documents);
 
         return response()->json(['message' => 'Documents uploaded successfully']);
+    }
+
+    public function index(Request $request) {
+        $documents = Document::when($request->status, function ($query) use ($request) {
+            return $query->where('status', $request->status);
+        })->get();
+
+        DocumentResource::withoutWrapping();
+        return DocumentResource::collection($documents);
     }
 }
