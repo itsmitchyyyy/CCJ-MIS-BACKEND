@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/teachers', TeacherController::class)->only(['index']);
     Route::apiResource('/students', StudentController::class)->only(['index', 'show']);
     Route::apiResource('/attendances', AttendanceController::class)->only(['store', 'index']);
-    Route::apiResource('/documents', DocumentController::class)->only(['store', 'index']);
+    Route::apiResource('/documents', DocumentController::class)->only(['store', 'index', 'update']);
 
     Route::controller(SubjectController::class)->group(function () {
         Route::post('/subjects/{subject}/students', 'addStudent');
