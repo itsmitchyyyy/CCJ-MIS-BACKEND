@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
 
 class StudentAssignmentResource extends JsonResource
 {
@@ -17,7 +18,9 @@ class StudentAssignmentResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'student' => new UserResource($this->whenLoaded('student')),
             'assignment_id' => $this->assignment_id,
+            'assignment' => new AssignmentResource($this->whenLoaded('assignment')),
             'score' => $this->score,
             'file_paths' => $this->file_paths,
             'comments' => $this->comments,

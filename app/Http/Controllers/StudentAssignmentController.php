@@ -39,4 +39,15 @@ class StudentAssignmentController extends Controller
         StudentAssignmentResource::withoutWrapping();
         return new StudentAssignmentResource($studentAssignment);
     }
+
+    public function index(Request $request)
+    {
+        $studentAssignments = StudentAssignment::when($request->user_id, fn ($query) => $query->where('user_id', $request->user_id))
+            ->when($request->assignment_id, fn ($query) => $query->where('assignment_id', $request->assignment_id))
+            ->when($request->load_relations, fn ($query) => $query->with(['student', 'assignment']))
+            ->get();
+
+        StudentAssignmentResource::withoutWrapping();
+        return StudentAssignmentResource::collection($studentAssignments);
+    }
 }

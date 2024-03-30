@@ -35,6 +35,6 @@ class StudentAssignment extends Model
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
