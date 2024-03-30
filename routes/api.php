@@ -60,4 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(StudentController::class)->group(function () {
         Route::get('/students/{student}/subjects', 'getSubjects');
     });
+
+    Route::controller(StudentAssignmentController::class)->group(function () {
+        Route::get('/student-assignments/{student}/{assignment}/exists', 'checkStudentAssignment');
+    });
 });
