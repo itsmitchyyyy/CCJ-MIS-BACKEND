@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreStudentAssignmentRequest;
+use App\Http\Requests\UpdateStudentAssignmentRequest;
 use App\Models\StudentAssignment;
 use App\Models\User;
 use App\Models\Assignment;
@@ -50,4 +51,14 @@ class StudentAssignmentController extends Controller
         StudentAssignmentResource::withoutWrapping();
         return StudentAssignmentResource::collection($studentAssignments);
     }
+
+   public function update(UpdateStudentAssignmentRequest $request, StudentAssignment $studentAssignment)
+   {
+        $data = $request->validated();
+
+        $studentAssignment->update($data);
+
+        StudentAssignmentResource::withoutWrapping();
+        return new StudentAssignmentResource($studentAssignment->load(['student', 'assignment']));
+   }
 }

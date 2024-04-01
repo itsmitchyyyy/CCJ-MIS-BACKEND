@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/attendances', AttendanceController::class)->only(['store', 'index']);
     Route::apiResource('/documents', DocumentController::class)->only(['store', 'index', 'update']);
     Route::apiResource('/assignments', AssignmentController::class)->only(['store', 'index']);
-    Route::apiResource('/student-assignments', StudentAssignmentController::class)->only(['store', 'index']);
+    Route::apiResource('/student-assignments', StudentAssignmentController::class)->only(['store', 'index', 'update']);
 
     Route::controller(SubjectController::class)->group(function () {
         Route::post('/subjects/{subject}/students', 'addStudent');
