@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\SubjectResource;
+use App\Http\Resources\StudentAssignmentResource;
 
 class AssignmentResource extends JsonResource
 {
@@ -19,6 +20,7 @@ class AssignmentResource extends JsonResource
             'id' => $this->id,
             'subject_id' => $this->subject_id,
             'subject' => new SubjectResource($this->subject),
+            'student_assignments' => StudentAssignmentResource::collection($this->whenLoaded('studentAssignments')),
             'title' => $this->title,
             'description' => $this->description,
             'due_date' => $this->due_date,

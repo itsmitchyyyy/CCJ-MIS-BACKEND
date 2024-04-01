@@ -19,11 +19,16 @@ class AssignmentController extends Controller
         return response()->json(['message' => 'Assignment created successfully', 'data' => $assignment]);
     }
 
-    public function  index(Request $request) {
+    public function index(Request $request) {
         $assignments = Assignment::when($request->subject_id, function ($query) use ($request) {
             return $query->where('subject_id', $request->subject_id);
         })
-        ->orderBy('due_date', 'asc')
+        ->when($request->student_id, function ($query) use ($request) {
+           return $query->with(['studentAssignments' => function ($query) use ($request) {
+               $query->where('user_id', $request->student_id);
+           }]);
+        })
+        ->orderBy('created_at', 'desc')
         ->get();
 
         AssignmentResource::withoutWrapping();
