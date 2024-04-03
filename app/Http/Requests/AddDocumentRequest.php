@@ -3,11 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use App\Enums\DocumentType;
-use App\Enums\DocumentStatus;
 
-class StoreDocumentRequest extends FormRequest
+class AddDocumentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +22,10 @@ class StoreDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', Rule::enum(DocumentType::class)],
-            'documents' => 'required|array|min:1',
-            'documents.*' => 'file|mimes:pdf,doc,docx,txt,xlsx,xls,pptx,ppt|max:25128|required',
+            'document_id' => 'required|exists:documents,id',
             'user_id' => 'required|exists:users,id',
-            'status' => ['nullable', Rule::enum(DocumentStatus::class)],
-            'is_private' => 'nullable|boolean'
+            'status' => 'sometimes|required|in:pending,approved,rejected',
+            'reason' => 'nullable|string'
         ];
     }
 }

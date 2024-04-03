@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
+use App\Http\Requests\AddDocumentRequest;
 use App\Models\Document;
 use App\Enums\DocumentStatus;
 use App\Http\Resources\DocumentResource;
@@ -23,6 +24,8 @@ class DocumentController extends Controller
                 'name' => ucfirst($document->getClientOriginalName()),
                 'file_path' => $document->store($filePath),
                 'user_id' => $data['user_id'],
+                'status' => $data['status'] ?? DocumentStatus::Pending,
+                'is_private' => $data['is_private'] ?? false,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -49,5 +52,30 @@ class DocumentController extends Controller
 
         $document->update($data);
         return response()->json(['message' => 'Document updated successfully']);
+    }
+
+    public function addRequest(AddDocumentRequest $documentRequest) {
+        $data = $documentRequest->validated();
+
+        $documentRequest = DocumentRequest::where('document_id', $data['document_id'])
+            ->where('user_id', $data['user_id'])
+            ->first();
+
+        if ($documentRequest) {
+            $documentRequest->update([
+                'request_count' => $documentRequest->request_count + 1,
+                'expires_at' => now()->addDays(7),
+            ]);
+
+            return response()->json(['message' => 'Request updated successfully']);
+        }
+
+        $newDocumentData = array_merge($data, [
+            'expires_at' => now()->addDays(7),
+        ]);
+
+        $documentRequest = DocumentRequest::create($newDocumentData);
+
+        return response()->json(['message' => 'Request added successfully']);
     }
 }

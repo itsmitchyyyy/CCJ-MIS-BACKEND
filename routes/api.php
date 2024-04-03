@@ -64,4 +64,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(StudentAssignmentController::class)->group(function () {
         Route::get('/student-assignments/{student}/{assignment}/exists', 'checkStudentAssignment');
     });
+
+    Route::controller(DocumentController::class)->group(function () {
+        Route::post('/document-request', 'addRequest');
+    });
 });
