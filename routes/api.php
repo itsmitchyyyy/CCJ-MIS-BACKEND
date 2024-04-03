@@ -66,6 +66,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(DocumentController::class)->group(function () {
-        Route::post('/document-request', 'addRequest');
+        Route::post('/document-requests', 'addRequest');
     });
 });

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use App\Http\Requests\AddDocumentRequest;
 use App\Models\Document;
+use App\Models\DocumentRequest;
 use App\Enums\DocumentStatus;
 use App\Http\Resources\DocumentResource;
 
