@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Requests\StoreSubjectStudentRequest;
+use App\Http\Requests\UpdateStudentGradeRequest;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\SubjectStudentResource;
 use App\Models\Subject;
@@ -14,9 +15,13 @@ use Carbon\Carbon;
 class SubjectController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $subjects = Subject::all();
+        $subjects = Subject::when($request->teacher_id, function ($query) use ($request) {
+            return $query->where('user_id', $request->teacher_id);
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         SubjectResource::withoutWrapping();
         return SubjectResource::collection($subjects);
@@ -63,5 +68,19 @@ class SubjectController extends Controller
             ->delete();
 
         return response()->noContent();
+    }
+
+    public function updateGrade(Subject $subject, $studentId, UpdateStudentGradeRequest $request)
+    {
+        $data = $request->validated();
+
+        $subjectStudent = SubjectStudent::where('subject_id', $subject->id)
+            ->where('user_id', $studentId)
+            ->first();
+
+        $subjectStudent->grade = $data['grade'];
+        $subjectStudent->save();
+
+        return response()->json($subjectStudent, 200);
     }
 }
