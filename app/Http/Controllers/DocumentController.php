@@ -85,6 +85,9 @@ class DocumentController extends Controller
         $documentRequests = DocumentRequest::when($request->status, function ($query) use ($request) {
             return $query->where('status', $request->status);
         })
+        ->when($request->user_id, function ($query) use ($request) {
+            return $query->where('user_id', $request->user_id);
+        })
         ->orderBy('created_at', 'desc')
         ->get();
 
