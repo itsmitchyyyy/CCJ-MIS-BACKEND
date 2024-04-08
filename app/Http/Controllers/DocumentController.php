@@ -10,6 +10,7 @@ use App\Models\Document;
 use App\Models\DocumentRequest;
 use App\Enums\DocumentStatus;
 use App\Http\Resources\DocumentResource;
+use App\Http\Resources\DocumentRequestResource;
 
 class DocumentController extends Controller
 {
@@ -78,5 +79,25 @@ class DocumentController extends Controller
         $documentRequest = DocumentRequest::create($newDocumentData);
 
         return response()->json(['message' => 'Request added successfully']);
+    }
+
+    public function fetchDocumentRequests(Request $request) {
+        $documentRequests = DocumentRequest::when($request->status, function ($query) use ($request) {
+            return $query->where('status', $request->status);
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        DocumentRequestResource::withoutWrapping();
+        return DocumentRequestResource::collection($documentRequests);
+    }
+
+    public function updateDocumentRequest(Request $request, DocumentRequest $documentRequest) {
+        $data = $request->all();
+
+        $data['expires_at'] = now()->addDays(7);
+        $documentRequest->increment('request_count');
+        $documentRequest->update($data);
+        return response()->json(['message' => 'Document request updated successfully']);
     }
 }
