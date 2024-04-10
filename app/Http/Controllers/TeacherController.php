@@ -14,7 +14,9 @@ class TeacherController extends Controller
         $teachers = User::where([
             ['access_type', '=', AccessType::TEACHER],
             ['status', '=', $request->status ?? Status::ACTIVE]
-        ])->get();
+        ])
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return response()->json($teachers, 200);
     }
