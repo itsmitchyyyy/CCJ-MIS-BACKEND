@@ -20,4 +20,9 @@ class TeacherController extends Controller
 
         return response()->json($teachers, 200);
     }
+
+    public function destroy(User $teacher) {
+        $teacher->delete();
+        return response()->noContent();
+    }
 }
