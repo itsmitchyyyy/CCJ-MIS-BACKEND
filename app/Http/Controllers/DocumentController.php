@@ -67,6 +67,7 @@ class DocumentController extends Controller
             $documentRequest->update([
                 'request_count' => $documentRequest->request_count + 1,
                 'expires_at' => now()->addDays(7),
+                'reason' => $data['reason'],
             ]);
 
             return response()->json(['message' => 'Request updated successfully']);

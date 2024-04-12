@@ -15,6 +15,7 @@ class DocumentRequest extends Model
         'user_id',
         'request_count',
         'status',
+        'reason',
         'expires_at'
     ];
 

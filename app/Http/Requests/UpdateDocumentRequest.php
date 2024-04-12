@@ -24,7 +24,7 @@ class UpdateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', Rule::enum(DocumentStatus::class)]
+            'status' => ['required', Rule::enum(DocumentStatus::class)],
         ];
     }
 }
