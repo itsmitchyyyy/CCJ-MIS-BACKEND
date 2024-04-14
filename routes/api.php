@@ -11,6 +11,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\StudentAssignmentController;
+use App\Http\Controllers\TeacherAttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('/subjects', SubjectController::class)->only(['store', 'index']);
     Route::apiResource('/teachers', TeacherController::class)->only(['index', 'destroy']);
+    Route::apiResource('/teacher-attendances', TeacherAttendanceController::class)->only(['store']);
     Route::apiResource('/students', StudentController::class)->only(['index', 'show']);
     Route::apiResource('/attendances', AttendanceController::class)->only(['store', 'index']);
     Route::apiResource('/documents', DocumentController::class)->only(['store', 'index', 'update']);
