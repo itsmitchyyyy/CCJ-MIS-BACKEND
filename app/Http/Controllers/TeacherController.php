@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Enums\AccessType;
 use App\Enums\Status;
+use App\Http\Resources\UserResource;
 
 use Illuminate\Http\Request;
 
@@ -24,5 +25,10 @@ class TeacherController extends Controller
     public function destroy(User $teacher) {
         $teacher->delete();
         return response()->noContent();
+    }
+
+    public function show(User $teacher) {
+        UserResource::withoutWrapping();
+        return new UserResource($teacher);
     }
 }

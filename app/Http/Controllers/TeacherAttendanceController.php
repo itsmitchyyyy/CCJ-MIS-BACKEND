@@ -9,6 +9,20 @@ use App\Http\Resources\TeacherAttendanceResource;
 
 class TeacherAttendanceController extends Controller
 {
+    public function index(Request $request) {
+        $attendance = TeacherAttendance::when($request->user_id, function ($query) use ($request) {
+            return $query->where('user_id', $request->user_id);
+        })->when($request->date, function ($query) use ($request) {
+            return $query->where('date', $request->date);
+        })->when($request->status, function ($query) use ($request) {
+            return $query->where('status', $request->status);
+        })
+        ->orderBy('date', 'DESC')->get();
+
+        TeacherAttendanceResource::withoutWrapping();
+        return TeacherAttendanceResource::collection($attendance);
+    }
+
     public function store(StoreTeacherAttendanceRequest $request) {
         $data = $request->validated();
 
