@@ -22,7 +22,9 @@ class UpdateStudentGradeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'grade' => 'required'
+            'grade' => 'required|array',
+            'grade.*.term' => 'required|in:prelim,midterm,semifinal,final',
+            'grade.*.value' => 'required|string',
         ];
     }
 }

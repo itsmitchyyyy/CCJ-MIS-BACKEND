@@ -22,7 +22,7 @@ class SubjectStudentResource extends JsonResource
             'subject' => new SubjectResource($this->subject),
             'student_id' => $this->user_id,
             'student' => new UserResource($this->user),
-            'grade' => json_decode($this->grade, true),
+            'grade' => $this->grade,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -57,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/subjects/{subject}/students', 'addStudent');
         Route::get('/subjects/{subject}/students', 'fetchSubjectStudents');
         Route::delete('/subjects/{subject}/students/{student}', 'removeStudent');
+        Route::post('/subjects/{subject}/students/{student}/grades', 'updateGrade');
     });
 
     Route::controller(StudentController::class)->group(function () {

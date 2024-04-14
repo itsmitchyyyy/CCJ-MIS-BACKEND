@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('subject_students', function (Blueprint $table) {
-            $table->string('grade')->nullable()->default(json_encode(['first_quarter' => null, 'second_quarter' => null, 'third_quarter' => null, 'fourth_quarter' => null]))->after('subject_id');
+            $table->string('grade')->nullable()->default(json_encode(['prelim' => 'NG', 'midterm' => 'NG', 'semifinal' => 'NG', 'final' => 'NG']))->after('subject_id');
         });
     }
 

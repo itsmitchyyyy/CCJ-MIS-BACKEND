@@ -78,7 +78,13 @@ class SubjectController extends Controller
             ->where('user_id', $studentId)
             ->first();
 
-        $subjectStudent->grade = $data['grade'];
+        $terms = $data['grade'];
+        $newGrade = [];
+        foreach($terms as $key => $value) {
+            $newGrade[$terms[$key]['term']] = $terms[$key]['value'];
+        }
+
+        $subjectStudent->grade = $newGrade;
         $subjectStudent->save();
 
         return response()->json($subjectStudent, 200);
