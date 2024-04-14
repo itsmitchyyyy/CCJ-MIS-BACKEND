@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTeacherAttendanceRequest;
+use App\Models\TeacherAttendance;
+use App\Http\Resources\TeacherAttendanceResource;
 
 class TeacherAttendanceController extends Controller
 {
