@@ -16,6 +16,7 @@ class Assignment extends Model
         'title',
         'description',
         'due_date',
+        'due_time',
     ];
 
     public function subject(): BelongsTo

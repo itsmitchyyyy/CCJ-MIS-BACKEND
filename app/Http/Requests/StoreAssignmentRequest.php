@@ -26,6 +26,7 @@ class StoreAssignmentRequest extends FormRequest
             'title' => 'required|string',
             'description' => 'required|string',
             'due_date' => 'required|date',
+            'due_time' => 'required|date',
         ];
     }
 }

@@ -13,6 +13,7 @@ class AssignmentController extends Controller
         $data = $request->validated();
 
         $data['due_date'] = date('Y-m-d', strtotime($data['due_date']));
+        $data['due_time'] = date('H:i:s', strtotime($data['due_time']));
 
         $assignment = Assignment::create($data);
 
