@@ -19,6 +19,7 @@ class FacilityResource extends JsonResource
             'type' => $this->type,
             'name' => $this->name,
             'description' => $this->description,
+            'status' => ucfirst($this->status),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
