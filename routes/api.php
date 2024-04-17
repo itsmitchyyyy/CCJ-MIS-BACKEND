@@ -77,6 +77,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(FacilityController::class)->group(function () {
-        Route::post('/facility-requests', 'createFacilityRequest');
+        Route::post('/facility-requests/{facility}', 'createFacilityRequest');
     });
 });
