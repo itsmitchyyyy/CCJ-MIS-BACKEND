@@ -21,4 +21,9 @@ class Facility extends Model
     protected $casts = [
         'type' => FacilityType::class,
     ];
+
+    public function requests()
+    {
+        return $this->hasMany(RequestFacility::class);
+    }
 }

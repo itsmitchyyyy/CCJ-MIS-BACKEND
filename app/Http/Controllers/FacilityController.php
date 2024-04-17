@@ -35,4 +35,12 @@ class FacilityController extends Controller
         $facility->delete();
         return response()->noContent();
    }
+
+   public function createFacilityRequest(StoreRequestFacilityRequest $request, Facility $facility)
+   {
+          $data = $request->validated();
+          $facility->requests()->create($data);
+
+          return response()->json(['message' => 'Request submitted successfully'], 201);
+   }
 }
