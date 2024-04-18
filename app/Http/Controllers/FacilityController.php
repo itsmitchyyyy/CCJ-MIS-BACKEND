@@ -98,6 +98,10 @@ class FacilityController extends Controller
             $requestFacility
                 ->facility
                 ->update(['status' => FacilityStatus::Booked->value]);
+        } else if ($data['status'] === RequestFacilityStatus::Rejected->value && $requestFacility->status !== RequestFacilityStatus::Rejected->value) {
+            $requestFacility
+                ->facility
+                ->update(['status' => FacilityStatus::Available->value]);
         }
 
         $requestFacility->update($data);
