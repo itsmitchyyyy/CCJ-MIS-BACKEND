@@ -11,6 +11,7 @@ use App\Http\Resources\RequestFacilityResource;
 use App\Models\Facility;
 use App\Models\RequestFacility;
 use App\Enums\RequestFacilityStatus;
+use App\Enums\FacilityStatus;
 
 class FacilityController extends Controller
 {
@@ -90,8 +91,13 @@ class FacilityController extends Controller
         $data = $request->validated();
 
         if ($data['status'] === RequestFacilityStatus::Approved->value && $requestFacility->status !== RequestFacilityStatus::Approved->value) {
+
             $data['approved_by'] = auth()->id();
             $data['approved_date'] = now();
+
+            $requestFacility
+                ->facility
+                ->update(['status' => FacilityStatus::Booked->value]);
         }
 
         $requestFacility->update($data);
