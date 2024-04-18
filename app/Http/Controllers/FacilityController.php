@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\StoreRequestFacilityRequest;
+use App\Http\Requests\UpdateRequestFacility;
 use App\Http\Resources\FacilityResource;
 use App\Http\Resources\RequestFacilityResource;
 use App\Models\Facility;
 use App\Models\RequestFacility;
+use App\Enums\RequestFacilityStatus;
 
 class FacilityController extends Controller
 {
@@ -81,5 +83,19 @@ class FacilityController extends Controller
 
         RequestFacilityResource::withoutWrapping();
         return RequestFacilityResource::collection($facilityRequests);
+   }
+
+   public function updateFacilityRequest(UpdateRequestFacility $request, RequestFacility $requestFacility)
+   {
+        $data = $request->validated();
+
+        if ($data['status'] === RequestFacilityStatus::Approved->value && $requestFacility->status !== RequestFacilityStatus::Approved->value) {
+            $data['approved_by'] = auth()->id();
+            $data['approved_date'] = now();
+        }
+
+        $requestFacility->update($data);
+
+        return response()->json(['message' => 'Request updated successfully']);
    }
 }
