@@ -23,7 +23,7 @@ class RequestFacility extends Model
     ];
 
     protected $casts = [
-        'status' => FacilityType::class,
+        'status' => RequestFacilityStatus::class,
     ];
 
     public function facility()

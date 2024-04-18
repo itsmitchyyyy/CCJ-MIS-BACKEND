@@ -76,8 +76,10 @@ class FacilityController extends Controller
         ->when($request->facility_id, function ($query, $facilityId) {
             return $query->where('facility_id', $facilityId);
         })
+        ->orderBy('created_at', 'desc')
         ->get();
 
-        return new RequestFacilityResource($facilityRequests);
+        RequestFacilityResource::withoutWrapping();
+        return RequestFacilityResource::collection($facilityRequests);
    }
 }
