@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SubjectStudent::class);
     }
+
+    public function requests(): HasMany
+    {
+        return $this->hasMany(RequestFacility::class);
+    }
 }

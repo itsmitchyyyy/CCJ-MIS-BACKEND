@@ -24,10 +24,12 @@ class StoreRequestFacilityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reservation_date' => 'required|date',
+            'reservation_date' => 'sometimes|required|date',
             'user_id' => 'required|exists:users,id',
             'approved_by' => 'nullable|exists:users,id',
             'approved_date' => 'nullable|date',
+            'borrowed_date' => 'sometimes|required|date',
+            'reason' => 'nullable|string',
             'status' =>  ['sometimes', 'required', Rule::enum(RequestFacilityStatus::class)],
         ];
     }
