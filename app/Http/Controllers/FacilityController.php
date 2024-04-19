@@ -12,9 +12,12 @@ use App\Models\Facility;
 use App\Models\RequestFacility;
 use App\Enums\RequestFacilityStatus;
 use App\Enums\FacilityStatus;
+use App\Traits\FacilityTrait;
 
 class FacilityController extends Controller
 {
+    use FacilityTrait;
+
    public function store(StoreFacilityRequest $request)
    {
         $data = $request->validated();
@@ -24,6 +27,14 @@ class FacilityController extends Controller
 
    public function index(Request $request)
    {
+
+        if ($request->has('type') && $request->type === 'my-request') {
+            $myRequest = $this->getFacilityRequests($request);
+
+            RequestFacilityResource::withoutWrapping();
+            return RequestFacilityResource::collection($myRequest);
+        }
+
         $facilities = Facility::when($request->type, function ($query, $type) {
             return $query->where('type', $type);
         })
@@ -61,26 +72,7 @@ class FacilityController extends Controller
 
    public function fetchFacilityRequests(Request $request)
    {
-        $facilityRequests = RequestFacility::when($request->status, function ($query, $status) {
-            return $query->where('status', $status);
-        })
-        ->when($request->reservation_date, function ($query, $reservationDate) {
-            return $query->where('reservation_date', $reservationDate);
-        })
-        ->when($request->borrowed_date, function ($query, $borrowedDate) {
-            return $query->where('borrowed_date', $borrowedDate);
-        })
-        ->when($request->returned_date, function ($query, $returnedDate) {
-            return $query->where('returned_date', $returnedDate);
-        })
-        ->when($request->user_id, function ($query, $userId) {
-            return $query->where('user_id', $userId);
-        })
-        ->when($request->facility_id, function ($query, $facilityId) {
-            return $query->where('facility_id', $facilityId);
-        })
-        ->orderBy('created_at', 'desc')
-        ->get();
+        $facilityRequests = $this->getFacilityRequests($request);
 
         RequestFacilityResource::withoutWrapping();
         return RequestFacilityResource::collection($facilityRequests);
@@ -90,18 +82,22 @@ class FacilityController extends Controller
    {
         $data = $request->validated();
 
-        if ($data['status'] === RequestFacilityStatus::Approved->value && $requestFacility->status !== RequestFacilityStatus::Approved->value) {
-
+        if ($request->has('returned_date') && $requestFacility->status === RequestFacilityStatus::Approved) {
+            $data['returned_date'] = date('Y-m-d', strtotime($data['returned_date']));
+            $requestFacility
+                ->facility()
+                ->update(['status' => FacilityStatus::Available]);
+        } else if ($data['status'] === RequestFacilityStatus::Approved->value && $requestFacility->status !== RequestFacilityStatus::Approved) {
             $data['approved_by'] = auth()->id();
             $data['approved_date'] = now();
 
             $requestFacility
-                ->facility
-                ->update(['status' => FacilityStatus::Booked->value]);
-        } else if ($data['status'] === RequestFacilityStatus::Rejected->value && $requestFacility->status !== RequestFacilityStatus::Rejected->value) {
+                ->facility()
+                ->update(['status' => FacilityStatus::Booked]);
+        } else if (!$request->has('returned_date') && ($data['status'] === RequestFacilityStatus::Rejected || $data['status'] === RequestFacilityStatus::Cancelled) && $requestFacility->status !== RequestFacilityStatus::Rejected) {
             $requestFacility
-                ->facility
-                ->update(['status' => FacilityStatus::Available->value]);
+                ->facility()
+                ->update(['status' => FacilityStatus::Available]);
         }
 
         $requestFacility->update($data);
