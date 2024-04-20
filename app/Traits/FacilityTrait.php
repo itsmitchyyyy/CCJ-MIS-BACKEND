@@ -28,10 +28,12 @@ trait FacilityTrait {
         ->when($request->facility_id, function ($query, $facilityId) {
             return $query->where('facility_id', $facilityId);
         })
-        ->when($request->type, function ($query, $type) {
-            return $query->whereHas('facility', function ($query) use ($type) {
-                $query->where('type', $type)->when($type === 'equipment', function ($query) {
-                    $query->whereIn('equipmentStatus', [EquipmentStatus::Slight, EquipmentStatus::Damage, EquipmentStatus::Badly]);
+        ->when($request->type, function ($query, $type) use ($request) {
+            return $query->whereHas('facility', function ($query) use ($type, &$request) {
+                $query->where('type', $type)->when($type === 'equipment', function ($query) use ($request) {
+                    $query->when($request->isDamage, function ($query) {
+                        $query->whereIn('equipmentStatus', [EquipmentStatus::Slight, EquipmentStatus::Damage, EquipmentStatus::Badly]);
+                    });
                 });
             });
         })
