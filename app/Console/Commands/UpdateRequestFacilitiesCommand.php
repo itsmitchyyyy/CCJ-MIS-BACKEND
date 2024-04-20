@@ -34,7 +34,8 @@ class UpdateRequestFacilitiesCommand extends Command
 
 
         foreach ($requestFacilities as $requestFacility) {
-           if ($requestFacility->facility->type != FacilityType::Equipment && Carbon::now()->gt(Carbon::parse($requestFacility->reservation_date))) {
+            $reservationDate = Carbon::parse("{$requestFacility->reservation_date} {$requestFacility->reservation_time}");
+           if ($requestFacility->facility->type != FacilityType::Equipment && Carbon::now()->gt($reservationDate)) {
                $requestFacility->facility()->update(['status' => FacilityStatus::Available]);
                if ($requestFacility->status == RequestFacilityStatus::Pending) {
                    $requestFacility->update(['status' => RequestFacilityStatus::Rejected]);
