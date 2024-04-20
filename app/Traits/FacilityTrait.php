@@ -37,6 +37,8 @@ trait FacilityTrait {
                 });
             });
         })
+        ->has('facility')
+        ->has('user')
         ->orderBy('created_at', 'desc')
         ->get();
 
