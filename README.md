@@ -45,6 +45,12 @@ Link the storage
 php artisan storage:link
 ```
 
+Run the scheduler
+
+```sh
+php artisan schedule:work
+```
+
 ## Running the project
 
 ```sh

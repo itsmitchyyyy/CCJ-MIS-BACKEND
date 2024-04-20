@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\Request;
+use App\Enums\EquipmentStatus;
 use App\Models\RequestFacility;
 
 trait FacilityTrait {
@@ -26,6 +27,13 @@ trait FacilityTrait {
         })
         ->when($request->facility_id, function ($query, $facilityId) {
             return $query->where('facility_id', $facilityId);
+        })
+        ->when($request->type, function ($query, $type) {
+            return $query->whereHas('facility', function ($query) use ($type) {
+                $query->where('type', $type)->when($type === 'equipment', function ($query) {
+                    $query->whereIn('equipmentStatus', [EquipmentStatus::Slight, EquipmentStatus::Damage, EquipmentStatus::Badly]);
+                });
+            });
         })
         ->orderBy('created_at', 'desc')
         ->get();
