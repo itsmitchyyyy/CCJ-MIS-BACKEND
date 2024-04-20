@@ -70,19 +70,30 @@ class FacilityController extends Controller
 
    public function createFacilityRequest(StoreRequestFacilityRequest $request, Facility $facility)
    {
-          $data = $request->validated();
+        $data = $request->validated();
 
-          if ($request->has('reservation_date')) {
-                $data['reservation_date'] = date('Y-m-d', strtotime($data['reservation_date']));
-          }
+        if ($request->has('reservation_date')) {
+            $data['reservation_date'] = date('Y-m-d', strtotime($data['reservation_date']));
+            $data['reservation_time'] = date('H:i:s', strtotime($data['reservation_time']));
+        }
 
-          if ($request->has('borrowed_date')) {
-                $data['borrowed_date'] = date('Y-m-d', strtotime($data['borrowed_date']));
-          }
+        if ($request->has('borrowed_date')) {
+            $data['borrowed_date'] = date('Y-m-d', strtotime($data['borrowed_date']));
+        }
+
+        $request = RequestFacility::where('facility_id', $facility->id)
+            ->where('user_id',$data['user_id'])
+            ->where('status', RequestFacilityStatus::Pending)
+            ->first();
+
+        if ($request) {
+            $request->update($data);
+            return response()->json(['message' => 'Request updated successfully']);
+        }
           
-          $facility->requests()->create($data);
+        $facility->requests()->create($data);
 
-          return response()->json(['message' => 'Request submitted successfully'], 201);
+        return response()->json(['message' => 'Request submitted successfully'], 201);
    }
 
    public function fetchFacilityRequests(Request $request)

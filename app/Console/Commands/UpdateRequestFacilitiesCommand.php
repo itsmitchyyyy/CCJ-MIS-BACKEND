@@ -30,7 +30,7 @@ class UpdateRequestFacilitiesCommand extends Command
      */
     public function handle()
     {
-        $requestFacilities = RequestFacility::all();
+        $requestFacilities = RequestFacility::where('status', RequestFacilityStatus::Approved)->get();
 
 
         foreach ($requestFacilities as $requestFacility) {

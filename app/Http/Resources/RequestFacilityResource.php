@@ -25,6 +25,7 @@ class RequestFacilityResource extends JsonResource
             'approved_by' => $this->approved_by,
             'approved_by_user' => new UserResource($this->approvedBy),
             'reservation_date' => $this->reservation_date,
+            'reservation_time' => $this->reservation_time,
             'approved_date' => $this->approved_date,
             'borrowed_date' => $this->borrowed_date,
             'returned_date' => $this->returned_date,

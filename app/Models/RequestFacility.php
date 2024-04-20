@@ -15,6 +15,7 @@ class RequestFacility extends Model
         'user_id',
         'approved_by',
         'reservation_date',
+        'reservation_time',
         'approved_date',
         'borrowed_date',
         'returned_date',

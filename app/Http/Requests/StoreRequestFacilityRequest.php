@@ -25,6 +25,7 @@ class StoreRequestFacilityRequest extends FormRequest
     {
         return [
             'reservation_date' => 'sometimes|required|date',
+            'reservation_time' => 'required_with:reservation_date|date',
             'user_id' => 'required|exists:users,id',
             'approved_by' => 'nullable|exists:users,id',
             'approved_date' => 'nullable|date',
