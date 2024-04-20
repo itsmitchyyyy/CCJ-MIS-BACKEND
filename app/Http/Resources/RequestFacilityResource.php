@@ -29,6 +29,7 @@ class RequestFacilityResource extends JsonResource
             'borrowed_date' => $this->borrowed_date,
             'returned_date' => $this->returned_date,
             'status' => $this->status,
+            'equipmentStatus' => $this->equipmentStatus,
             'reason' => $this->reason,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

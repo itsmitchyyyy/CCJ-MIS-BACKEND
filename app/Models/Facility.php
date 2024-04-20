@@ -16,6 +16,7 @@ class Facility extends Model
         'name',
         'description',
         'room_number',
+        'status',
     ];
 
     protected $casts = [

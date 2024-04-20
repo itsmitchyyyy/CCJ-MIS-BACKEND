@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\StoreRequestFacilityRequest;
+use App\Http\Requests\UpdateFacilityRequest;
 use App\Http\Requests\UpdateRequestFacility;
 use App\Http\Resources\FacilityResource;
 use App\Http\Resources\RequestFacilityResource;
@@ -52,6 +53,20 @@ class FacilityController extends Controller
         $facility->delete();
         return response()->noContent();
    }
+   
+   public function update(UpdateFacilityRequest $request, Facility $facility)
+   {
+        $data = $request->validated();
+
+        if ($request->has('request_id')) {
+            RequestFacility::where('id', $data['request_id'])->update(['equipmentStatus' => $data['equipmentStatus']]);
+        }
+
+        $facility->update([
+            'status' => $data['status']
+        ]);
+        return response()->json($facility);
+   }
 
    public function createFacilityRequest(StoreRequestFacilityRequest $request, Facility $facility)
    {
@@ -84,9 +99,6 @@ class FacilityController extends Controller
 
         if ($request->has('returned_date') && $requestFacility->status === RequestFacilityStatus::Approved) {
             $data['returned_date'] = date('Y-m-d', strtotime($data['returned_date']));
-            $requestFacility
-                ->facility()
-                ->update(['status' => FacilityStatus::Available]);
         } else if ($data['status'] === RequestFacilityStatus::Approved->value && $requestFacility->status !== RequestFacilityStatus::Approved) {
             $data['approved_by'] = auth()->id();
             $data['approved_date'] = now();
