@@ -13,6 +13,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\StudentAssignmentController;
 use App\Http\Controllers\TeacherAttendanceController;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/assignments', AssignmentController::class)->only(['store', 'index']);
     Route::apiResource('/student-assignments', StudentAssignmentController::class)->only(['store', 'index', 'update']);
     Route::apiResource('/facilities', FacilityController::class)->only(['store', 'index', 'destroy', 'update']);
+    Route::apiResource('/announcements', AnnouncementController::class)->only(['store']);
 
     Route::controller(SubjectController::class)->group(function () {
         Route::post('/subjects/{subject}/students', 'addStudent');
