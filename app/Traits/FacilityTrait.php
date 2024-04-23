@@ -28,6 +28,9 @@ trait FacilityTrait {
         ->when($request->facility_id, function ($query, $facilityId) {
             return $query->where('facility_id', $facilityId);
         })
+        ->when($request->isReturned, function ($query, $isReturn) {
+            return $query->whereNotNull('returned_date');
+        })
         ->when($request->type && $request->type != 'my-request', function ($query) use ($request) {
             return $query->whereHas('facility', function ($query) use ($request) {
                 return $query->where('type', $request->type)->when($request->type === 'equipment', function ($query) use ($request) {
