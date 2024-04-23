@@ -28,9 +28,9 @@ trait FacilityTrait {
         ->when($request->facility_id, function ($query, $facilityId) {
             return $query->where('facility_id', $facilityId);
         })
-        ->when($request->type && $request->type != 'my-request', function ($query, $type) use ($request) {
-            return $query->whereHas('facility', function ($query) use ($type, &$request) {
-                return $query->where('type', $type)->when($type === 'equipment', function ($query) use ($request) {
+        ->when($request->type && $request->type != 'my-request', function ($query) use ($request) {
+            return $query->whereHas('facility', function ($query) use ($request) {
+                return $query->where('type', $request->type)->when($request->type === 'equipment', function ($query) use ($request) {
                     return $query->when($request->has('isDamage') && $request->isDamage, function ($query) {
                        return $query->whereIn('equipmentStatus', [EquipmentStatus::Slight, EquipmentStatus::Damage, EquipmentStatus::Badly]);
                     });
