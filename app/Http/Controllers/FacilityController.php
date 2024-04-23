@@ -81,13 +81,13 @@ class FacilityController extends Controller
             $data['borrowed_date'] = date('Y-m-d', strtotime($data['borrowed_date']));
         }
 
-        $request = RequestFacility::where('facility_id', $facility->id)
+        $facilityRequest = RequestFacility::where('facility_id', $facility->id)
             ->where('user_id',$data['user_id'])
             ->where('status', RequestFacilityStatus::Pending)
             ->first();
 
-        if ($request) {
-            $request->update($data);
+        if ($facilityRequest) {
+            $facilityRequest->update($data);
             return response()->json(['message' => 'Request updated successfully']);
         }
           
