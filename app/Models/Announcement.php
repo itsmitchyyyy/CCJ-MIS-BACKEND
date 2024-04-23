@@ -22,8 +22,13 @@ class Announcement extends Model
     public function images(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => json_decode($value, true),
-            set: fn (array $value) => json_encode($value)
+            get: fn (?string $value) => isset($value) ? json_decode($value, true) : [],
+            set: fn (array $value) => isset($value) ? json_encode($value) : null
         );
+    }
+
+    public function postedBy()
+    {
+        return $this->belongsTo(User::class, 'posted_by_id');
     }
 }

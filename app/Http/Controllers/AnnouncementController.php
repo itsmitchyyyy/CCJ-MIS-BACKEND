@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAnnouncementRequest;
+use App\Http\Resources\AnnouncementResource;
+use App\Enums\AnnouncementStatus;
 use App\Models\Announcement;
 
 class AnnouncementController extends Controller
@@ -24,5 +26,21 @@ class AnnouncementController extends Controller
 
         $announcement = Announcement::create($data);
         return response()->json($announcement, 201);
+    }
+
+    public function index(Request $request)
+    {
+        $announcements = Announcement::where('status', AnnouncementStatus::Active)
+            ->orderBy('posted_at', 'desc')
+            ->get();
+
+        AnnouncementResource::withoutWrapping();
+        return AnnouncementResource::collection($announcements);
+    }
+
+    public function destroy(Announcement $announcement)
+    {
+        $announcement->delete();
+        return response()->noContent();
     }
 }
