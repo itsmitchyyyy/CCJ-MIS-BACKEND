@@ -35,7 +35,7 @@ trait FacilityTrait {
             return $query->whereHas('facility', function ($query) use ($request) {
                 return $query->where('type', $request->type)->when($request->type === 'equipment', function ($query) use ($request) {
                     return $query->when($request->has('isDamage') && $request->isDamage, function ($query) {
-                       return $query->whereIn('equipmentStatus', [EquipmentStatus::Slight, EquipmentStatus::Damage, EquipmentStatus::Badly]);
+                       return $query->whereIn('equipmentStatus', [EquipmentStatus::Lost, EquipmentStatus::Slight, EquipmentStatus::Damage, EquipmentStatus::Badly]);
                     });
                 });
             });
