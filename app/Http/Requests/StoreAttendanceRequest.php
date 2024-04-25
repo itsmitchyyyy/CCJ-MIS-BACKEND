@@ -24,7 +24,7 @@ class StoreAttendanceRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'subject_id' => 'required|exists:subjects,id',
-            'status' => 'required|string|in:present,absent,late',
+            'status' => 'required|string|in:excuse,present,absent,late',
             'date' => 'required|date|date_format:Y-m-d|before_or_equal:today',
         ];
     }
