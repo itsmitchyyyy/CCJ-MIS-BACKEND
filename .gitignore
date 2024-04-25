@@ -17,3 +17,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/public/announcements
+/public/assignments
+/public/documents
+/public/profile_pictures
+
