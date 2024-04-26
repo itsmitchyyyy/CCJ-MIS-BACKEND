@@ -11,6 +11,7 @@ use App\Models\DocumentRequest;
 use App\Enums\DocumentStatus;
 use App\Http\Resources\DocumentResource;
 use App\Http\Resources\DocumentRequestResource;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -54,6 +55,13 @@ class DocumentController extends Controller
 
         $document->update($data);
         return response()->json(['message' => 'Document updated successfully']);
+    }
+
+    public function destroy(Document $document) {
+        Storage::delete($document->file_path);
+        $document->delete();
+
+        return response()->json(['message' => 'Document deleted successfully']);
     }
 
     public function addRequest(AddDocumentRequest $documentRequest) {
