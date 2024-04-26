@@ -12,10 +12,15 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        $students = User::where([
-            ['access_type', '=', AccessType::STUDENT],
-            ['status', '=', $request->status ?? Status::ACTIVE]
-        ])->get();
+        $students = User::search($request->search ?? '')
+        ->query(function ($query) {
+            return $query->where([
+                ['access_type', '=', AccessType::STUDENT],
+                ['status', '=', $request->status ?? Status::ACTIVE]
+            ])
+            ->orderBy('created_at', 'desc');
+        })
+        ->get();
 
         return response()->json($students, 200);
     }

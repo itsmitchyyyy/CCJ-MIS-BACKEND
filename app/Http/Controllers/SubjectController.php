@@ -53,9 +53,16 @@ class SubjectController extends Controller
         return response()->json($subjectStudentData, 201);
     }
 
-    public function fetchSubjectStudents(Subject $subject)
+    public function fetchSubjectStudents(Subject $subject, Request $request)
     {
-        $subjectStudents = SubjectStudent::where('subject_id', $subject->id)->get();
+        $subjectStudents = SubjectStudent::search($request->search ?? '')
+        ->query(function ($query) use ($subject) {
+            return $query->select('subject_students.*', 'users.first_name', 'users.last_name')
+                ->join('users', 'users.id', '=', 'subject_students.user_id')
+                ->where('subject_id', $subject->id)
+                ->orderBy('created_at', 'desc');
+        })
+        ->get();
 
         SubjectStudentResource::withoutWrapping();
         return SubjectStudentResource::collection($subjectStudents);
