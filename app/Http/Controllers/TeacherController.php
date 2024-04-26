@@ -12,11 +12,14 @@ class TeacherController extends Controller
 {
     public function index(Request $request)
     {
-        $teachers = User::where([
-            ['access_type', '=', AccessType::TEACHER],
-            ['status', '=', $request->status ?? Status::ACTIVE]
-        ])
-        ->orderBy('created_at', 'desc')
+        $teachers = User::search($request->search ?? '')
+        ->query(function($query) {
+           return $query->where([
+                ['access_type', '=', AccessType::TEACHER],
+                ['status', '=', $request->status ?? Status::ACTIVE]
+            ])
+            ->orderBy('created_at', 'desc');
+        })
         ->get();
 
         return response()->json($teachers, 200);

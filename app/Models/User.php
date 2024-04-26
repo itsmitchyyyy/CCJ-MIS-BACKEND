@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\AccessType;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -52,6 +53,14 @@ class User extends Authenticatable
         'password' => 'hashed',
         'access_type' => AccessType::class
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+        ];
+    }
 
     public function subjects(): HasMany
     {
