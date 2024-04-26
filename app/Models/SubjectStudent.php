@@ -28,6 +28,7 @@ class SubjectStudent extends Model
         $this->loadMissing('user');
 
         return [
+            'subjects.name' => '',
             'users.first_name' => '',
             'users.last_name' => ''
         ];
