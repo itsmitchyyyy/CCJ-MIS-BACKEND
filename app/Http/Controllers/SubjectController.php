@@ -17,10 +17,13 @@ class SubjectController extends Controller
 
     public function index(Request $request)
     {
-        $subjects = Subject::when($request->teacher_id, function ($query) use ($request) {
-            return $query->where('user_id', $request->teacher_id);
+        $subjects = Subject::search($request->search ?? '')
+        ->query(function ($query) use ($request) {
+            return $query->when($request->teacher_id, function ($query) use ($request) {
+                return $query->where('user_id', $request->teacher_id);
+            })
+            ->orderBy('created_at', 'desc');
         })
-        ->orderBy('created_at', 'desc')
         ->get();
 
         SubjectResource::withoutWrapping();

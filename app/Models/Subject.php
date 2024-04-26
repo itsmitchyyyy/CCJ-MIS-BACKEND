@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Models\User;
+use Laravel\Scout\Searchable;
 
 class Subject extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'user_id',
@@ -28,6 +29,13 @@ class Subject extends Model
         return Attribute::make(
             get: fn (string $value) => implode('', explode(',', $value)),
         );
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+        ];
     }
 
     public function user()
