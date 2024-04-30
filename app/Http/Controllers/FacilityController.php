@@ -13,6 +13,7 @@ use App\Models\Facility;
 use App\Models\RequestFacility;
 use App\Enums\RequestFacilityStatus;
 use App\Enums\FacilityStatus;
+use App\Enums\EquipmentStatus;
 use App\Traits\FacilityTrait;
 
 class FacilityController extends Controller
@@ -60,11 +61,16 @@ class FacilityController extends Controller
 
         if ($request->has('request_id')) {
             RequestFacility::where('id', $data['request_id'])->update(['equipmentStatus' => $data['equipmentStatus']]);
+        
+            if ($data['equipmentStatus'] === EquipmentStatus::Lost->value || $data['equipmentStatus'] === EquipmentStatus::Badly->value) {
+                $data['status'] = FacilityStatus::Unavailable;
+            }
         }
 
         $facility->update([
             'status' => $data['status']
         ]);
+
         return response()->json($facility);
    }
 
@@ -117,7 +123,7 @@ class FacilityController extends Controller
             $requestFacility
                 ->facility()
                 ->update(['status' => FacilityStatus::Booked]);
-        } else if (!$request->has('returned_date') && ($data['status'] === RequestFacilityStatus::Rejected || $data['status'] === RequestFacilityStatus::Cancelled) && $requestFacility->status !== RequestFacilityStatus::Rejected) {
+        } else if (!$request->has('returned_date') && ($data['status'] === RequestFacilityStatus::Rejected->value || $data['status'] === RequestFacilityStatus::Cancelled->value) && $requestFacility->status !== RequestFacilityStatus::Rejected) {
             $requestFacility
                 ->facility()
                 ->update(['status' => FacilityStatus::Available]);
