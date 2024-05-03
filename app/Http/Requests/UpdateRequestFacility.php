@@ -25,7 +25,8 @@ class UpdateRequestFacility extends FormRequest
     {
         return [
             'returned_date' => 'sometimes|required|date',
-            'status' => ['required', Rule::enum(RequestFacilityStatus::class)]
+            'status' => ['required', Rule::enum(RequestFacilityStatus::class)],
+            'rejected_reason' => 'required_if:status,rejected|string'
         ];
     }
 }

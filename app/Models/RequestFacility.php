@@ -21,6 +21,7 @@ class RequestFacility extends Model
         'returned_date',
         'reason',
         'status',
+        'rejected_reason',
     ];
 
     protected $casts = [
