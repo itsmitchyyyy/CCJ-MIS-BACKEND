@@ -31,6 +31,7 @@ class RequestFacilityResource extends JsonResource
             'returned_date' => $this->returned_date,
             'status' => $this->status,
             'equipmentStatus' => $this->equipmentStatus,
+            'rejected_reason' => $this->rejected_reason,
             'reason' => $this->reason,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
