@@ -76,6 +76,7 @@ class DocumentController extends Controller
                 'request_count' => $documentRequest->request_count + 1,
                 'expires_at' => now()->addDays(7),
                 'reason' => $data['reason'],
+                'status' => $documentRequest->status === 'rejected' ? 'pending' : $documentRequest->status,
             ]);
 
             return response()->json(['message' => 'Request updated successfully']);
