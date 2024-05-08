@@ -62,6 +62,7 @@ class SubjectController extends Controller
         ->query(function ($query) use ($subject) {
             return $query->select('subject_students.*', 'users.first_name', 'users.last_name')
                 ->join('users', 'users.id', '=', 'subject_students.user_id')
+                ->join('subjects', 'subjects.id', '=', 'subject_students.subject_id')
                 ->where('subject_id', $subject->id)
                 ->orderBy('created_at', 'desc');
         })
