@@ -16,6 +16,7 @@ class DocumentRequest extends Model
         'request_count',
         'status',
         'reason',
+        'rejected_reason',
         'expires_at'
     ];
 

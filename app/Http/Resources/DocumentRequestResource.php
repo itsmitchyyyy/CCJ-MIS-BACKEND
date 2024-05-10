@@ -25,6 +25,7 @@ class DocumentRequestResource extends JsonResource
             'request_count' => $this->request_count,
             'status' => $this->status,
             'reason' => $this->reason,
+            'rejected_reason' => $this->rejected_reason,
             'expires_at' => $this->expires_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
