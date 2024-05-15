@@ -75,6 +75,7 @@ return [
         public_path('documents') => storage_path('app/documents'),
         public_path('assignments') => storage_path('app/assignments'),
         public_path('announcements') => storage_path('app/announcements'),
+        public_path('document_files') => storage_path('app/document_files'),
     ],
 
 ];
