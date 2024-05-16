@@ -113,4 +113,13 @@ class DocumentController extends Controller
         $documentRequest->update($data);
         return response()->json(['message' => 'Document request updated successfully']);
     }
+
+    public function fetchStoredDocuments(Request $request) {
+        $folders = Storage::directories('document_files');
+        $folders = array_map(function ($folder) {
+            return basename($folder);
+        }, $folders);
+
+        return response()->json($folders);
+    }
 }

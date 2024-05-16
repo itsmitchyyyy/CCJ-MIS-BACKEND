@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
                 'letter', 
                 'waver', 
                 'student_data', 
-                'graduatin_student_data', 
+                'graduating_student_data', 
                 'student_research', 
                 'indiana_jones', 
                 'approval_to_print_form',

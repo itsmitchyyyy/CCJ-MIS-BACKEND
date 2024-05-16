@@ -78,6 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/document-requests', 'addRequest');
         Route::get('/document-requests', 'fetchDocumentRequests');
         Route::put('/document-requests/{documentRequest}', 'updateDocumentRequest');
+        Route::get('/documents/fetch-stored-documents', 'fetchStoredDocuments');
     });
 
     Route::controller(FacilityController::class)->group(function () {
