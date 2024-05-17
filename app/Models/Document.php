@@ -13,7 +13,10 @@ class Document extends Model
         'type',
         'name',
         'file_path',
+        'folder_type',
         'user_id',
+        'is_private',
+        'reason',
         'status',
     ];
 }

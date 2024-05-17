@@ -28,6 +28,7 @@ class StoreDocumentRequest extends FormRequest
             'type' => ['required', Rule::enum(DocumentType::class)],
             'documents' => 'required|array|min:1',
             'documents.*' => 'file|mimes:pdf,doc,docx,txt,xlsx,xls,pptx,ppt|max:25128|required',
+            'folder_type' => 'nullable|string',
             'user_id' => 'required|exists:users,id',
             'status' => ['nullable', Rule::enum(DocumentStatus::class)],
             'is_private' => 'nullable|boolean'

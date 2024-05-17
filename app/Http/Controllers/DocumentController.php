@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateDocumentRequest;
 use App\Http\Requests\AddDocumentRequest;
 use App\Models\Document;
 use App\Models\DocumentRequest;
+use App\Models\UserFolder;
 use App\Enums\DocumentStatus;
 use App\Http\Resources\DocumentResource;
 use App\Http\Resources\DocumentRequestResource;
@@ -18,12 +19,21 @@ class DocumentController extends Controller
     public function store(StoreDocumentRequest $request) {
         $data = $request->validated();
 
+        $folderTypes = $this->fetchStoredDocuments($request);
+
         $documents = [];
 
         foreach ($data['documents'] as $document) {
             $filePath = "documents/{$data['type']}";
+
+            if ($request->has('folder_type')) {
+                $replacedFolderType = str_replace(' ', '_', $data['folder_type']);
+                $filePath = "document_files/{$replacedFolderType}";
+            }
+
             $documents[] = [
                 'type' => $data['type'],
+                'folder_type' => $data['folder_type'] ?? null,
                 'name' => ucfirst($document->getClientOriginalName()),
                 'file_path' => $document->store($filePath),
                 'user_id' => $data['user_id'],
@@ -42,6 +52,12 @@ class DocumentController extends Controller
     public function index(Request $request) {
         $documents = Document::when($request->status, function ($query) use ($request) {
             return $query->where('status', $request->status);
+        })
+        ->when($request->user_id, function ($query) use ($request) {
+            return $query->where('user_id', $request->user_id);
+        })
+        ->when($request->folder_type, function ($query) use ($request) {
+            return $query->where('folder_type', $request->folder_type);
         })
         ->orderBy('created_at', 'desc')
         ->get();
@@ -115,11 +131,42 @@ class DocumentController extends Controller
     }
 
     public function fetchStoredDocuments(Request $request) {
-        $folders = Storage::directories('document_files');
-        $folders = array_map(function ($folder) {
-            return basename($folder);
-        }, $folders);
+        $defaultDirectories = [
+            'letter', 
+            'waver', 
+            'student_data', 
+            'graduating_student_data', 
+            'student_research', 
+            'indiana_jones', 
+            'approval_to_print_form',
+            'other_documents'
+        ];
+        
+        if ($request->has('user_id')) {
+            $newFolders = UserFolder::where('user_id', $request->user_id)->get();
+            $folders = $newFolders->map(function ($folder) {
+                return $folder->folder_name;
+            })->toArray();
+        }
+        
+        $folders = array_merge($defaultDirectories, $folders ?? []);
 
         return response()->json($folders);
+    }
+
+    public function addNewFolder(Request $request) {
+        $folder = $request->folder_name;
+        $directoryExists = Storage::exists('document_files/' . $folder);
+
+        if (!$directoryExists) {
+            Storage::makeDirectory('document_files/' . $folder);
+            UserFolder::create([
+                'user_id' => $request->user_id,
+                'folder_name' => $folder,
+            ]);
+            return response()->json(['message' => "{$folder} created"]);
+        }
+
+        return response()->json(['message' => "{$folder} already exists"]);
     }
 }
