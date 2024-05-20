@@ -76,6 +76,7 @@ return [
         public_path('assignments') => storage_path('app/assignments'),
         public_path('announcements') => storage_path('app/announcements'),
         public_path('document_files') => storage_path('app/document_files'),
+        public_path('message_attachments') => storage_path('app/message_attachments'),
     ],
 
 ];
