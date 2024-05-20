@@ -47,7 +47,12 @@ class UserController extends Controller
                 ['id', '!=', Auth::id()],
             ])->orderBy('created_at','desc')->get();
         } else {
-            $users = User::orderBy('created_at', 'desc')->get()->except(Auth::id());
+            $users = User::search($request->search ?? '')
+                ->query(function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                })
+                ->get()
+                ->except(Auth::id());
         }
 
 
