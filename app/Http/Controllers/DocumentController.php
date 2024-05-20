@@ -59,6 +59,9 @@ class DocumentController extends Controller
         ->when($request->folder_type, function ($query) use ($request) {
             return $query->where('folder_type', $request->folder_type);
         })
+        ->when($request->type, function ($query) use ($request) {
+            return $query->where('type', $request->type);
+        })
         ->orderBy('created_at', 'desc')
         ->get();
 
@@ -144,6 +147,16 @@ class DocumentController extends Controller
         
         if ($request->has('user_id')) {
             $newFolders = UserFolder::where('user_id', $request->user_id)->get();
+            $folders = $newFolders->map(function ($folder) {
+                return $folder->folder_name;
+            })->toArray();
+        }
+
+        if ($request->has('access_type') && $request->access_type === 'admin') {
+            $newFolders = UserFolder::join('users','users.id', '=', 'user_folders.user_id')
+                ->where('users.access_type', 'admin')
+                ->get();
+                
             $folders = $newFolders->map(function ($folder) {
                 return $folder->folder_name;
             })->toArray();
