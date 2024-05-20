@@ -59,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/facilities', FacilityController::class)->only(['store', 'index', 'destroy', 'update']);
     Route::apiResource('/announcements', AnnouncementController::class)->only(['store', 'index', 'destroy']);
     Route::apiResource('/settings', SettingsController::class)->only(['store', 'index']);
-    Route::apiResource('/messages', MessageController::class)->only(['store']);
+    Route::apiResource('/messages', MessageController::class)->only(['store', 'index']);
 
     Route::controller(SubjectController::class)->group(function () {
         Route::post('/subjects/{subject}/students', 'addStudent');
