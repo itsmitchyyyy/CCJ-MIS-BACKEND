@@ -16,6 +16,7 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/announcements', AnnouncementController::class)->only(['store', 'index', 'destroy']);
     Route::apiResource('/settings', SettingsController::class)->only(['store', 'index']);
     Route::apiResource('/messages', MessageController::class)->only(['store', 'index']);
+    Route::apiResource('/notifications', NotificationController::class)->only(['index']);
+
 
     Route::controller(SubjectController::class)->group(function () {
         Route::post('/subjects/{subject}/students', 'addStudent');

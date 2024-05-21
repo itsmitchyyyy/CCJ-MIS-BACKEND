@@ -64,7 +64,8 @@ class MessageController extends Controller
             $notification = Notification::create([
                 'user_id' => $data['to_id'],
                 'message' => "{$user['first_name']} {$user['last_name']} has sent you a new message",
-                'event' => 'message',
+                'event' => 'send.message',
+                'url' => '/messages/inbox/' . $messageThread->id,
             ]);
 
             if ($notification) {
