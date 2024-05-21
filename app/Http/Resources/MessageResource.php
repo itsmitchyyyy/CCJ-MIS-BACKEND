@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\MessageThreadResource;
 
 class MessageResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class MessageResource extends JsonResource
             'id' => $this->id,
             'to_id' => $this->to_id,
             'send_from_id' => $this->send_from_id,
-            'subject' => $this->subject,
+            'message_thread_id' => $this->message_thread_id,
             'message' => $this->message,
             'status' => $this->status,
             'type' => $this->type,
@@ -28,6 +29,7 @@ class MessageResource extends JsonResource
             'sent_at' => $this->sent_at,
             'to' => new UserResource($this->to),
             'send_from' => new UserResource($this->sendFrom),
+            'message_thread' => new MessageThreadResource($this->messageThread),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

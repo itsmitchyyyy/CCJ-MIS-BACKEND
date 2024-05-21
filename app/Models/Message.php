@@ -13,13 +13,13 @@ class Message extends Model
     protected $fillable = [
         'to_id',
         'send_from_id',
-        'subject',
         'message',
         'status',
         'type',
         'attachment',
         'read_at',
         'sent_at',
+        'message_thread_id'
     ];
 
     public function attachment(): Attribute
@@ -38,5 +38,10 @@ class Message extends Model
     public function sendFrom()
     {
         return $this->belongsTo(User::class, 'send_from_id');
+    }
+
+    public function messageThread()
+    {
+        return $this->belongsTo(MessageThread::class);
     }
 }

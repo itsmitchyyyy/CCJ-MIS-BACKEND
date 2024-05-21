@@ -89,4 +89,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/facility-requests', 'fetchFacilityRequests');
         Route::put('/facility-requests/{requestFacility}', 'updateFacilityRequest');
     });
+
+    Route::controller(MessageController::class)->group(function () {
+        Route::get('/messages/threads/{id}', 'getMessageThread');
+        Route::put('/messages/{message}/mark-as-read', 'markAsRead');
+    });
 });
