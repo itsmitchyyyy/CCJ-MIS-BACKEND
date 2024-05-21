@@ -11,9 +11,12 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         if ($request->has('user_id')) {
-            $notifications = Notification::where('user_id', $request->user_id)->get();
+            $notifications = Notification::where('user_id', $request->user_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
         } else {
-            $notifications = Notification::all();
+            $notifications = Notification::orderBy('created_at', 'desc')
+                ->get();
         }
         
         NotificationResource::withoutWrapping();

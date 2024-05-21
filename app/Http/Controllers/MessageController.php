@@ -23,13 +23,15 @@ class MessageController extends Controller
         if ($request->has('message_thread_id')) {
             $messageThread = MessageThread::find($data['message_thread_id']);
         } else {
-            $messageThread = MessageThread::where('user_one_id', $data['to_id'])
+            $messageThread = MessageThread::where('subject', $data['subject'])
+            ->where('user_one_id', $data['to_id'])
             ->where('user_two_id', $data['send_from_id'])
             ->orWhere(function ($query) use ($data) {
-                $query->where('user_one_id', $data['send_from_id'])
+                $query
+                    ->where('subject', $data['subject'])
+                    ->where('user_one_id', $data['send_from_id'])
                     ->where('user_two_id', $data['to_id']);
             })
-            ->where('subject', $data['subject'])
             ->first();
         }
 
