@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/announcements', AnnouncementController::class)->only(['store', 'index', 'destroy']);
     Route::apiResource('/settings', SettingsController::class)->only(['store', 'index']);
     Route::apiResource('/messages', MessageController::class)->only(['store', 'index']);
-    Route::apiResource('/notifications', NotificationController::class)->only(['index']);
+    Route::apiResource('/notifications', NotificationController::class)->only(['index', 'update']);
 
 
     Route::controller(SubjectController::class)->group(function () {

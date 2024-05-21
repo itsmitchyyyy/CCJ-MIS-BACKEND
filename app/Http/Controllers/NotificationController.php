@@ -19,4 +19,16 @@ class NotificationController extends Controller
         NotificationResource::withoutWrapping();
         return NotificationResource::collection($notifications);
     }
+
+    public function update(Request $request, $id)
+    {
+        $notification = Notification::find($id);
+
+        if ($notification) {
+            $notification->update($request->all());
+            return response()->json($notification, 200);
+        } else {
+            return response()->json(['message' => 'Notification not found'], 404);
+        }
+    }
 }
