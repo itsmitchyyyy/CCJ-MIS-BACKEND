@@ -21,4 +21,5 @@ yarn-error.log
 /public/assignments
 /public/documents
 /public/profile_pictures
+/public/document_files
 
