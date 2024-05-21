@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\MessageThreadResource;
+use App\Models\User;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\MessageThread;
+use App\Events\SendMessage;
 
 class MessageController extends Controller
 {
@@ -56,6 +59,18 @@ class MessageController extends Controller
             'unread_count' => $unreadCount,
         ]);
 
+        if (!$request->has('message_thread_id')) {
+            $user = User::find($data['send_from_id']);
+            $notification = Notification::create([
+                'user_id' => $data['to_id'],
+                'message' => "{$user['first_name']} {$user['last_name']} has sent you a new message",
+                'event' => 'message',
+            ]);
+
+            if ($notification) {
+                broadcast(new SendMessage($messageThread->id, $user));
+            }
+        }
        
         return response()->json($message, 201);
     }

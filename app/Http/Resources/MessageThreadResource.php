@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\MessageResource;
 
 class MessageThreadResource extends JsonResource
 {
@@ -25,7 +26,7 @@ class MessageThreadResource extends JsonResource
             'subject' => $this->subject,
             'user_one' => new UserResource($this->userOne),
             'user_two' => new UserResource($this->userTwo),
-            'messages' => $this->whenLoaded('messages'),
+            'messages' => MessageResource::collection($this->whenLoaded('messages')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

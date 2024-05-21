@@ -54,6 +54,16 @@ class User extends Authenticatable
         'access_type' => AccessType::class
     ];
 
+    /**
+     * The channels the user receives notification broadcasts on.
+     *
+     * @return string
+     */
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.Models.User' . $this->id;
+    }
+
     public function toSearchableArray(): array
     {
         return [
