@@ -25,6 +25,7 @@ class StoreAnnouncementRequest extends FormRequest
             'title' => 'required|string',
             'description' => 'required|string',
             'posted_by_id' => 'required|exists:users,id',
+            'type' => 'required|in:student,teacher,all',
             'images' => 'nullable|array|min:1',
             'images.*' => 'file|mimes:jpeg,png,jpg,gif|max:25128|required_with:images',
             'status' => 'sometimes|required|in:active,inactive',

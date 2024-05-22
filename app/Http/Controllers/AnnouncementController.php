@@ -30,9 +30,13 @@ class AnnouncementController extends Controller
 
     public function index(Request $request)
     {
-        $announcements = Announcement::where('status', AnnouncementStatus::Active)
-            ->orderBy('posted_at', 'desc')
-            ->get();
+        $announcements = Announcement::when($request->has('type'), function ($query) use ($request) {
+            return $query->where('type', $request->type)
+                ->orWhere('type', 'all');
+        })
+        ->where('status', AnnouncementStatus::Active)
+        ->orderBy('posted_at', 'desc')
+        ->get();
 
         AnnouncementResource::withoutWrapping();
         return AnnouncementResource::collection($announcements);

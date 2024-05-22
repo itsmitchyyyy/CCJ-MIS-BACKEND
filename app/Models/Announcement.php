@@ -17,6 +17,7 @@ class Announcement extends Model
         'posted_at',
         'images',
         'status',
+        'type',
     ];
 
     public function images(): Attribute
