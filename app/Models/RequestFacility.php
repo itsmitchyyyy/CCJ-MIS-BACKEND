@@ -22,6 +22,9 @@ class RequestFacility extends Model
         'reason',
         'status',
         'rejected_reason',
+        'quantity',
+        'borrow_end_date',
+        'reservation_end_time',
     ];
 
     protected $casts = [

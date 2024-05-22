@@ -81,10 +81,12 @@ class FacilityController extends Controller
         if ($request->has('reservation_date')) {
             $data['reservation_date'] = date('Y-m-d', strtotime($data['reservation_date']));
             $data['reservation_time'] = date('H:i:s', strtotime($data['reservation_time']));
+            $data['reservation_end_time'] = date('H:i:s', strtotime($data['reservation_end_time']));
         }
 
         if ($request->has('borrowed_date')) {
             $data['borrowed_date'] = date('Y-m-d', strtotime($data['borrowed_date']));
+            $data['borrow_end_date'] = date('Y-m-d', strtotime($data['borrow_end_date']));
         }
 
         $facilityRequest = RequestFacility::where('facility_id', $facility->id)
