@@ -93,8 +93,13 @@ class FacilityController extends Controller
             ->where('user_id',$data['user_id'])
             ->where('status', RequestFacilityStatus::Pending)
             ->first();
+            
 
         if ($facilityRequest) {
+            if ($request->has('attachment')) {
+                $data['attachment'] = $request->file('attachment')->store('request_attachments');
+            }
+
             $facilityRequest->update($data);
             return response()->json(['message' => 'Request updated successfully']);
         }

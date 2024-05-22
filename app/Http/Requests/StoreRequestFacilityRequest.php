@@ -35,6 +35,7 @@ class StoreRequestFacilityRequest extends FormRequest
             'reason' => 'nullable|string',
             'status' =>  ['sometimes', 'required', Rule::enum(RequestFacilityStatus::class)],
             'quantity' => 'sometimes|required|integer',
+            'attachment' => 'required|file|mimes:jpg,jpeg,png,gif|max:25128',
         ];
     }
 }

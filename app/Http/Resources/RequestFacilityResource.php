@@ -38,6 +38,7 @@ class RequestFacilityResource extends JsonResource
             'reservation_end_time' => $this->reservation_end_time,
             'quantity' => $this->quantity,
             'borrow_end_date' => $this->borrow_end_date,
+            'attachment' => $this->attachment,
         ];
     }
 }

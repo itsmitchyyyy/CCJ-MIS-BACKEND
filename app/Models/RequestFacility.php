@@ -25,6 +25,7 @@ class RequestFacility extends Model
         'quantity',
         'borrow_end_date',
         'reservation_end_time',
+        'attachment',
     ];
 
     protected $casts = [
