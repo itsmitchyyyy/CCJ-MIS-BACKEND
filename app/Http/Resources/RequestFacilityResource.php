@@ -35,6 +35,9 @@ class RequestFacilityResource extends JsonResource
             'reason' => $this->reason,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'reservation_end_time' => $this->reservation_end_time,
+            'quantity' => $this->quantity,
+            'borrow_end_date' => $this->borrow_end_date,
         ];
     }
 }
