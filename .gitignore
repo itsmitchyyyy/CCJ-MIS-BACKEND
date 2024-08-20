@@ -26,3 +26,5 @@ yarn-error.log
 /public/document_files
 /public/request_attachments
 
+
+.vercel
