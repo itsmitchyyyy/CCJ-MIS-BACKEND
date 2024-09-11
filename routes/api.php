@@ -17,7 +17,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\ForgotPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +31,10 @@ use App\Http\Controllers\NotificationController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetCodeEmail']);
+Route::post('/check-code', [ForgotPasswordController::class, 'checkCode']);
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
    // User Routes
